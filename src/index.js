@@ -1,9 +1,19 @@
+function changeCity(response) {
+  let temperatureValue = document.querySelector("#current-temperature-value");
+  temperatureValue.innerHTML = Math.round(response.data.temperature.current);
+  let cityElement = document.querySelector("#current-city");
+  cityElement.innerHTML = response.data.city;
+}
+
 function searchCity(event) {
   event.preventDefault();
+
   let searchInput = document.querySelector("#search-input");
-  console.log(searchInput);
-  let city = document.querySelector("#current-city");
-  city.innerHTML = searchInput.value;
+  let city = searchInput.value;
+  let apiKey = "1o334f343ac7e4f31b2ae638t364b007";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`;
+
+  axios.get(apiUrl).then(changeCity);
 }
 
 let searchForm = document.querySelector("#search-form");
@@ -32,17 +42,3 @@ if (minutes < 10) {
 
 let currentDate = document.querySelector("#current-date");
 currentDate.innerHTML = `${day} ${hours}:${minutes}`;
-
-function changeCity(response) {
-  let temperature = Math.round(response.data.temperature.current);
-  let temperatureValue = document.querySelector("#current-temperature-value");
-  temperatureValue.innerHTML = `${temperature}`;
-
-  let city = response.data.city;
-  let currentCity = document.querySelector("#current-city");
-  currentCity.innerHTML = `${city}`;
-}
-let city = "Portland";
-let apiKey = "1o334f343ac7e4f31b2ae638t364b007";
-let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`;
-axios.get(apiUrl).then(changeCity);
